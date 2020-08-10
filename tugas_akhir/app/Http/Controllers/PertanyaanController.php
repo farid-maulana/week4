@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Pertanyaan;
 
 class PertanyaanController extends Controller
 {
@@ -15,7 +16,8 @@ class PertanyaanController extends Controller
      */
     public function index()
     {
-        $pertanyaan = DB::table($this->table)->get(); //SELECT * FROM table
+        // $pertanyaan = DB::table($this->table)->get(); //SELECT * FROM table
+        $pertanyaan = Pertanyaan::all();
         //dd($pertanyaan);
         return view('pertanyaan.index', compact('pertanyaan'));
     }
@@ -44,7 +46,12 @@ class PertanyaanController extends Controller
             'isi' => 'required'
         ]);
 
-        $query = DB::table($this->table)->insert([
+        // $query = DB::table($this->table)->insert([
+        //     "judul" => $request["judul"],
+        //     "isi" => $request["isi"]
+        // ]);
+
+        $pertanyaan = Pertanyaan::create([
             "judul" => $request["judul"],
             "isi" => $request["isi"]
         ]);
@@ -60,8 +67,9 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
-        $pertanyaan = DB::table($this->table)->where('id', $id)->first(); //SELECT * FROM posts WHERE id
+        // $pertanyaan = DB::table($this->table)->where('id', $id)->first(); //SELECT * FROM posts WHERE id
         //dd($post);
+        $pertanyaan = Pertanyaan::find($id);
         return view('pertanyaan.show', compact('pertanyaan'));
     }
 
@@ -73,7 +81,7 @@ class PertanyaanController extends Controller
      */
     public function edit($id)
     {
-        $pertanyaan = DB::table($this->table)->where('id', $id)->first(); //SELECT * FROM
+        $pertanyaan = Pertanyaan::where('id', $id)->first(); //SELECT * FROM
 
         return view('pertanyaan.edit', compact('pertanyaan'));
     }
@@ -91,14 +99,20 @@ class PertanyaanController extends Controller
             'judul' => 'required',
             'isi' => 'required'
         ]);
+
         //dd($request);
-        $query = DB::table($this->table)
-                    ->where('id', $id)
-                    ->update([
-                        'judul' => $request['judul'],
-                        'isi' => $request['isi'],
-                        'tanggal_diperbaharui' => DB::raw('CURRENT_TIMESTAMP')
-                    ]);
+        // $query = DB::table($this->table)
+        //             ->where('id', $id)
+        //             ->update([
+        //                 'judul' => $request['judul'],
+        //                 'isi' => $request['isi'],
+        //                 'tanggal_diperbaharui' => DB::raw('CURRENT_TIMESTAMP')
+        //             ]);
+
+        $update = Pertanyaan::where('id', $id)->update([
+            "judul" => $request["judul"],
+            "isi" => $request["isi"]
+        ]);
 
         return redirect('/pertanyaan')->with('success', 'Berhasil Update pertanyaan!');
     }
@@ -111,7 +125,8 @@ class PertanyaanController extends Controller
      */
     public function destroy($id)
     {
-        $query = DB::table($this->table)->where('id', $id)->delete();
+        // $query = DB::table($this->table)->where('id', $id)->delete();
+        Pertanyaan::destroy($id);
         return redirect('/pertanyaan')->with('success', 'Pertanyaan Berhasil dihapus');
     }
 }
