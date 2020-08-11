@@ -38,8 +38,10 @@ Route::get('/data-tables', function () {
     return view('tables.data');
 });
 
-Route::resource('posts', 'PostController');
-Route::resource('pertanyaan', 'PertanyaanController');
-Route::resource('postings', 'PostingController');
-//dsd
+Auth::routes();
 
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('posts', 'PostController')->middleware('auth');
+Route::resource('pertanyaan', 'PertanyaanController')->middleware('auth');
+Route::resource('postings', 'PostingController')->middleware('auth');
