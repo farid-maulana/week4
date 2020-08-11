@@ -42,6 +42,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('posts', 'PostController')->middleware('auth');
-Route::resource('pertanyaan', 'PertanyaanController')->middleware('auth');
+Route::resource('posts', 'PostController');
+Route::resource('pertanyaan', 'PertanyaanController');
 Route::resource('postings', 'PostingController')->middleware('auth');
