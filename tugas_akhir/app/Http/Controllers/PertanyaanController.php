@@ -7,6 +7,7 @@ use DB;
 use App\Pertanyaan;
 use App\Tag;
 use Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PertanyaanController extends Controller
 {
@@ -78,6 +79,7 @@ class PertanyaanController extends Controller
         $pertanyaan->tags()->sync($tag_ids);
         $user = Auth::user();
         $user->posts()->save($pertanyaan);
+        Alert::success('Berhasil', 'Berhasil menambah pertanyaan baru');
 
         return redirect('/pertanyaan')->with('success', 'Pertanyaan Berhasil Disimpan');
     }
@@ -124,15 +126,6 @@ class PertanyaanController extends Controller
             'judul' => 'required',
             'isi' => 'required'
         ]);
-
-        //dd($request);
-        // $query = DB::table($this->table)
-        //             ->where('id', $id)
-        //             ->update([
-        //                 'judul' => $request['judul'],
-        //                 'isi' => $request['isi'],
-        //                 'tanggal_diperbaharui' => DB::raw('CURRENT_TIMESTAMP')
-        //             ]);
 
         $update = Pertanyaan::where('id', $id)->update([
             "judul" => $request["judul"],

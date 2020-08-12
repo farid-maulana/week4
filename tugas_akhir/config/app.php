@@ -175,6 +175,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //DOMPDF
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+        //LARAVEL EXCEL
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ],
 
     /*
@@ -225,6 +231,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        //DOMPDF
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
+        //LARAVEL EXCEL
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

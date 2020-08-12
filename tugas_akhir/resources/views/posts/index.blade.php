@@ -28,7 +28,7 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $post->title }}</td>
-                            <td>{{ $post->body }}</td>
+                            <td>{!! $post->body !!}</td>
                             <td style="display: flex">
                                 <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="btn btn-info btn-sm">Show</a>
                                 <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-default btn-sm">Edit</a>

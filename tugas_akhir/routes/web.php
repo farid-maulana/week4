@@ -46,3 +46,18 @@ Route::resource('posts', 'PostController');
 Route::resource('pertanyaan', 'PertanyaanController');
 Route::get('/pertanyaan/{pertanyaan}/edit/{jawaban}', 'PertanyaanController@tepat')->name('pertanyaan.tepat');
 Route::resource('postings', 'PostingController')->middleware('auth');
+
+Route::get('/test-dompdf', function(){
+
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML('<h1>Hello World</h1>');
+    return $pdf->stream();
+
+});
+
+//PACKAGES
+Route::get('/test-dompdf2', 'PdfController@test');
+Route::get('/posts-export', 'PostController@export');
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});

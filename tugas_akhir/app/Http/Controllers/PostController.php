@@ -7,6 +7,8 @@ use DB;
 use App\Post;
 use App\Tag;
 use Auth;
+use App\Exports\PostsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PostController extends Controller
 {
@@ -149,5 +151,10 @@ class PostController extends Controller
         //$query = DB::table($this->table)->where('id', $id)->delete();
         Post::destroy($id);
         return redirect('/posts')->with('success', 'Post Berhasil dihapus');
+    }
+
+    public function export()
+    {
+        return Excel::download(new PostsExport, 'posts.xlsx');
     }
 }
