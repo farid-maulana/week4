@@ -25,7 +25,13 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <input type="text" class="form-control" id="tags" name="tags" value="{{ old('tags', '') }}" placeholder="Pisahkan dengan koma, contoh: postingan,beritaterkini,update">
+                </div>
             </div>
+
+
             <!-- /.card-body -->
 
             <div class="card-footer">

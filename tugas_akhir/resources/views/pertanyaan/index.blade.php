@@ -26,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($pertanyaan as $key => $p)
+                    @forelse ($pertanyaans as $key => $p)
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $p->judul }}</td>
@@ -45,7 +45,7 @@
                         </tr>
                     @empty
                     <tr>
-                        <td colspan="5" align="center"> No Posts</td>
+                        <td colspan="6" align="center"> No Posts</td>
                     </tr>
                     @endforelse
                 </tbody>

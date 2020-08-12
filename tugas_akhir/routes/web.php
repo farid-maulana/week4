@@ -44,4 +44,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('posts', 'PostController');
 Route::resource('pertanyaan', 'PertanyaanController');
+Route::get('/pertanyaan/{pertanyaan}/edit/{jawaban}', 'PertanyaanController@tepat')->name('pertanyaan.tepat');
 Route::resource('postings', 'PostingController')->middleware('auth');

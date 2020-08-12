@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Pertanyaan;
+use App\Tag;
+use Auth;
 
 class PertanyaanController extends Controller
 {
@@ -22,9 +24,11 @@ class PertanyaanController extends Controller
     public function index()
     {
         // $pertanyaan = DB::table($this->table)->get(); //SELECT * FROM table
-        $pertanyaan = Pertanyaan::all();
+        //$pertanyaan = Pertanyaan::all();
+        $user = Auth::user();
+        $pertanyaans = $user->pertanyaans;
         //dd($pertanyaan);
-        return view('pertanyaan.index', compact('pertanyaan'));
+        return view('pertanyaan.index', compact('pertanyaans'));
     }
 
     /**
@@ -51,15 +55,29 @@ class PertanyaanController extends Controller
             'isi' => 'required'
         ]);
 
-        // $query = DB::table($this->table)->insert([
-        //     "judul" => $request["judul"],
-        //     "isi" => $request["isi"]
-        // ]);
+        $tags_arr = explode(',' , $request["tags"]);
+        $tag_ids = [];
+
+        foreach($tags_arr as $tag_name)
+        {
+            $tag = Tag::where('tag_name', $tag_name)->first();
+            if ($tag){
+                $tag_ids[] = $tag->id;
+            } else{
+                $new_tag = Tag::create(['tag_name' => $tag_name]);
+                $tag_ids[] = $new_tag->id;
+
+            }
+        }
 
         $pertanyaan = Pertanyaan::create([
             "judul" => $request["judul"],
             "isi" => $request["isi"]
         ]);
+
+        $pertanyaan->tags()->sync($tag_ids);
+        $user = Auth::user();
+        $user->posts()->save($pertanyaan);
 
         return redirect('/pertanyaan')->with('success', 'Pertanyaan Berhasil Disimpan');
     }
@@ -75,7 +93,9 @@ class PertanyaanController extends Controller
         // $pertanyaan = DB::table($this->table)->where('id', $id)->first(); //SELECT * FROM posts WHERE id
         //dd($post);
         $pertanyaan = Pertanyaan::find($id);
-        return view('pertanyaan.show', compact('pertanyaan'));
+        //dd($pertanyaan);
+        $jawabans = $pertanyaan->jawabans;
+        return view('pertanyaan.show', compact('pertanyaan'), compact('jawabans'));
     }
 
     /**
@@ -134,4 +154,15 @@ class PertanyaanController extends Controller
         Pertanyaan::destroy($id);
         return redirect('/pertanyaan')->with('success', 'Pertanyaan Berhasil dihapus');
     }
+
+    public function tepat($id, $jawaban_id)
+    {
+        // $query = DB::table($this->table)->where('id', $id)->delete();
+        $pertanyaan = Pertanyaan::find($id);
+        $pertanyaan->jawaban_tepat_id = $jawaban_id;
+        $pertanyaan->save();
+        return redirect(route('pertanyaan.show', ['pertanyaan' => $id]));
+    }
+
+
 }

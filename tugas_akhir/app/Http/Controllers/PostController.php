@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Post;
+use App\Tag;
 use Auth;
 
 class PostController extends Controller
@@ -24,7 +25,8 @@ class PostController extends Controller
     public function index()
     {
         //$posts = DB::table($this->table)->get(); //SELECT * FROM table
-        $posts = Post::all();
+        $user = Auth::user();
+        $posts = $user->posts;
         //dd($posts);
         return view('posts.index', compact('posts'));
     }
@@ -48,27 +50,37 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
+
         $request->validate([
             'title' => 'required|unique:posts',
             'body' => 'required'
         ]);
 
-        // $query = DB::table($this->table)->insert([
-        //     "title" => $request["title"],
-        //     "body" => $request["body"]
-        // ]);
+        $tags_arr = explode(',' , $request["tags"]);
+        $tag_ids = [];
+        //dd($tags_arr);
 
-        // $post = new Post;
-        // $post->title = $request["title"];
-        // $post->body = $request["body"];
-        // $post->save();
+        foreach($tags_arr as $tag_name)
+        {
+            $tag = Tag::where('tag_name', $tag_name)->first();
+            if ($tag){
+                $tag_ids[] = $tag->id;
+            } else{
+                $new_tag = Tag::create(['tag_name' => $tag_name]);
+                $tag_ids[] = $new_tag->id;
+
+            }
+        }
+        //dd($tag_ids);
 
         $post = Post::create([
             "title" => $request["title"],
-            "body" => $request["body"],
-            "user_id" => Auth::id()
+            "body" => $request["body"]
         ]);
 
+        $post->tags()->sync($tag_ids);
+        $user = Auth::user();
+        $user->posts()->save($post);
 
         return redirect('/posts')->with('success', 'Post Berhasil Disimpan');
     }
