@@ -8,6 +8,11 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Auth;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use App\Profile;
 
 class RegisterController extends Controller
 {
@@ -23,6 +28,17 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+
+    protected function registered(Request $request, $user)
+    {
+        $full_name = $request["full_name"];
+        $profile = Profile::create([
+            "full_name" => $full_name
+        ]);
+        $user->profile()->save($profile);
+        Alert::success('Berhasil Register', "Selamat Bergabung $full_name");
+        return redirect(route('login'));
+    }
 
     /**
      * Where to redirect users after registration.

@@ -3,7 +3,7 @@
     <a href="../../index3.html" class="brand-link">
         <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Forum Sanbersy</span>
     </a>
 
     <!-- Sidebar -->
@@ -12,19 +12,28 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
 
-                @auth
-                <img src="{{ asset(Auth::user()->profile->photo) }}" class="img-circle elevation-2" alt="User Image">
-                @endauth
                 @guest
                 <img src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
                     alt="User Image">
                 @endguest
 
+                @auth
+
+                @if (asset(Auth::user()->profile->photo))
+                <img src="{{ asset(Auth::user()->profile->photo) }}" class="img-circle elevation-2" alt="User Image">
+
+                @else
+                <img src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                alt="User Image">
+                @endif
+
+                @endauth
+
             </div>
             <div class="info">
 
                 @auth
-                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                <a href="#" class="d-block">{{ Auth::user()->profile->full_name }}</a>
                 @endauth
                 @guest
                 <a href="#" class="d-block">Guest</a>

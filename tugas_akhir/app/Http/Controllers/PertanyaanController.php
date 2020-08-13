@@ -14,7 +14,7 @@ class PertanyaanController extends Controller
     //construct function
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth');
     }
 
     /**
@@ -25,9 +25,9 @@ class PertanyaanController extends Controller
     public function index()
     {
         // $pertanyaan = DB::table($this->table)->get(); //SELECT * FROM table
-        //$pertanyaan = Pertanyaan::all();
-        $user = Auth::user();
-        $pertanyaans = $user->pertanyaans;
+        $pertanyaans = Pertanyaan::all();
+        // $user = Auth::user();
+        // $pertanyaans = $user->pertanyaans;
         //dd($pertanyaan);
         return view('pertanyaan.index', compact('pertanyaans'));
     }
@@ -61,14 +61,8 @@ class PertanyaanController extends Controller
 
         foreach($tags_arr as $tag_name)
         {
-            $tag = Tag::where('tag_name', $tag_name)->first();
-            if ($tag){
-                $tag_ids[] = $tag->id;
-            } else{
-                $new_tag = Tag::create(['tag_name' => $tag_name]);
-                $tag_ids[] = $new_tag->id;
-
-            }
+            $tag = Tag::firstOrCreate(['tag_name' => $tag_name]);
+            $tag_ids = $tag->id;
         }
 
         $pertanyaan = Pertanyaan::create([
@@ -109,9 +103,19 @@ class PertanyaanController extends Controller
      */
     public function edit($id)
     {
-        $pertanyaan = Pertanyaan::where('id', $id)->first(); //SELECT * FROM
+        $pertanyaan = Pertanyaan::find($id); //SELECT * FROM
+        $tags = $pertanyaan->tags;
+        $tag_ids = [];
+        foreach($tags as $tag)
+        {
+            $tag_ids[] = $tag->tag_name;
+        }
 
-        return view('pertanyaan.edit', compact('pertanyaan'));
+        //dd($tag_ids);
+        $tag_value = implode(',' , $tag_ids);
+        //dd($tag_value);
+
+        return view('pertanyaan.edit', compact('pertanyaan'), compact('tag_value'));
     }
 
     /**

@@ -9,9 +9,6 @@
         <!-- /.card-header -->
         <div class="card-body">
             @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
             @endif
             <a class="btn btn-primary mb-2" href="{{ route('pertanyaan.create') }}">Create New Pertanyaan</a>
             <table class="table table-bordered">
@@ -30,7 +27,7 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $p->judul }}</td>
-                            <td>{{ $p->isi }}</td>
+                            <td>{!! $p->isi !!}</td>
                             <td>{{ $p->created_at }}</td>
                             <td>{{ $p->updated_at }}</td>
                             <td style="display: flex">
@@ -51,16 +48,6 @@
                 </tbody>
             </table>
         </div>
-        <!-- /.card-body -->
-        {{-- <div class="card-footer clearfix">
-            <ul class="pagination pagination-sm m-0 float-right">
-                <li class="page-item"><a class="page-link" href="#">«</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">»</a></li>
-            </ul>
-        </div> --}}
     </div>
 </div>
 @endsection

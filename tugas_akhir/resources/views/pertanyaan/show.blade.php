@@ -47,9 +47,12 @@
             </div>
             @endif
             <div>
+                Tags  :
+
                 @foreach ($pertanyaan->tags as $tag)
-                #{{ $tag->tag_name }}
+                <button class="btn btn-primary btn-sm">{{ $tag->tag_name }}</button>
                 @endforeach
+
             </div>
         </div>
 

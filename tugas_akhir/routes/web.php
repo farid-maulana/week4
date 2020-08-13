@@ -40,6 +40,7 @@ Route::get('/data-tables', function () {
 
 Auth::routes();
 
+Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('posts', 'PostController');
