@@ -16,13 +16,13 @@ class CreateKomentarPertanyaansTable extends Migration
         Schema::create('komentar_pertanyaans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('isi', 255);
-            $table->date('tanggal_dibuat');
+            $table->timestamps();
 
             //FK
-            $table->unsignedBigInteger('pertanyaan_id');
+            $table->unsignedBigInteger('pertanyaan_id')->nullable();
             $table->foreign('pertanyaan_id')->references('id')->on('pertanyaans');
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

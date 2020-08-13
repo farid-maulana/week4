@@ -18,10 +18,10 @@ class CreateLikeDislikePertanyaansTable extends Migration
             $table->bigInteger('poin');
 
             //FK
-            $table->unsignedBigInteger('pertanyaan_id');
+            $table->unsignedBigInteger('pertanyaan_id')->nullable();
             $table->foreign('pertanyaan_id')->references('id')->on('pertanyaans');
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

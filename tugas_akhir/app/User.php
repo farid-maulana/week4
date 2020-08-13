@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Jabawan');
     }
+
+    public function komentar_pertanyaans()
+    {
+        return $this->hasMany('App\Komentar_Pertanyaan');
+    }
+
+    public function komentar_jawabans()
+    {
+        return $this->hasMany('App\Komentar_Jawabans');
+    }
 }

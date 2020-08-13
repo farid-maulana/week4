@@ -78,8 +78,8 @@ class PertanyaanController extends Controller
 
         $pertanyaan->tags()->sync($tag_ids);
         $user = Auth::user();
-        $user->posts()->save($pertanyaan);
-        Alert::success('Berhasil', 'Berhasil menambah pertanyaan baru');
+        $user->pertanyaans()->save($pertanyaan);
+        Alert::success('Berhasil', 'Berhasil menambah PERTANYAAN baru');
 
         return redirect('/pertanyaan')->with('success', 'Pertanyaan Berhasil Disimpan');
     }
@@ -97,6 +97,7 @@ class PertanyaanController extends Controller
         $pertanyaan = Pertanyaan::find($id);
         //dd($pertanyaan);
         $jawabans = $pertanyaan->jawabans;
+        //dd($jawabans);
         return view('pertanyaan.show', compact('pertanyaan'), compact('jawabans'));
     }
 
@@ -157,5 +158,24 @@ class PertanyaanController extends Controller
         return redirect(route('pertanyaan.show', ['pertanyaan' => $id]));
     }
 
+    public function jawaban(Request $request, $id)
+    {
+        //dd($request->all());
+        $request->validate([
+            'jawaban' => 'required'
+        ]);
+
+        $pertanyaan = Pertanyaan::find($id);
+        $user = Auth::user();
+
+        $jawaban = $pertanyaan->jawabans()->create([
+            "isi" => $request["jawaban"],
+            'user_id' => $user->id
+        ]);
+
+        Alert::success('Berhasil', 'Berhasil menambah JAWABAN baru');
+
+        return redirect(route('pertanyaan.show', ['pertanyaan' => $id]));
+    }
 
 }

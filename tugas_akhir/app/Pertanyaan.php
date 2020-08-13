@@ -30,4 +30,9 @@ class Pertanyaan extends Model
         return $this->belongsToMany('App\Tag', 'pertanyaan_tag', 'pertanyaan_id', 'tag_id');
     }
 
+    public function komentars()
+    {
+        return $this->hasMany('App\Komentar_Pertanyaan');
+    }
+
 }
