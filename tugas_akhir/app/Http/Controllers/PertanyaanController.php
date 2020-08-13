@@ -62,7 +62,7 @@ class PertanyaanController extends Controller
         foreach($tags_arr as $tag_name)
         {
             $tag = Tag::firstOrCreate(['tag_name' => $tag_name]);
-            $tag_ids = $tag->id;
+            $tag_ids[] = $tag->id;
         }
 
         $pertanyaan = Pertanyaan::create([
