@@ -15,7 +15,7 @@ class CreateKomentarPertanyaansTable extends Migration
     {
         Schema::create('komentar_pertanyaans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('isi', 255);
+            $table->text('isi');
             $table->timestamps();
 
             //FK

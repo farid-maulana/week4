@@ -8,13 +8,12 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
-            <a class="btn btn-primary mb-2" href="{{ route('pertanyaan.create') }}">Create New Pertanyaan</a>
+        <table class="table table-hover text-wrap">
           <tbody>
             @forelse ($pertanyaans as $key => $p)
               <tr href="{{ route('pertanyaan.show', ['pertanyaan' => $p->id]) }}">
                 <td align="center">
-                  0
+                    {{ $skor_arr[$key] }}
                   <br>
                   votes
                 </td>

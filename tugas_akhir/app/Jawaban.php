@@ -22,4 +22,9 @@ class Jawaban extends Model
     {
         return $this->hasMany('App\Komentar_Jawaban');
     }
+
+    public function votes()
+    {
+        return $this->hasMany('App\Vote_Jawaban');
+    }
 }

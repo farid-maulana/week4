@@ -3,5 +3,5 @@
       <b>Version</b> 3.0.5
     </div>
     <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-    reserved. Modified by Vito Ramadhan.
+    reserved. Modified by Sanbersy Kelompok 4 LARAVEL Batch Juli.
   </footer>

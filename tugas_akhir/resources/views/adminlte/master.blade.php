@@ -16,6 +16,7 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- Custom Style -->
+  <link rel="stylesheet" href="{{ asset('/css/style.css') }} ">
   @stack('script-head')
 </head>
 <body class="hold-transition sidebar-collapse layout-top-nav">
@@ -34,10 +35,10 @@
     <div class="content-header">
       <div class="container">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-10">
             <h1 class="m-0 text-dark"> @yield('page-title') </h1>
           </div><!-- /.col -->
-          <div class="col-sm-6">
+          <div class="col-sm-2">
             @if (request()->segment(2) != 'create')
               <a href="{{ route('pertanyaan.create') }}" class="btn btn-info float-right">Ask Question</a>
             @endif

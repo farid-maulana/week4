@@ -35,4 +35,9 @@ class Pertanyaan extends Model
         return $this->hasMany('App\Komentar_Pertanyaan');
     }
 
+    public function votes()
+    {
+        return $this->hasMany('App\Vote_Pertanyaan');
+    }
+
 }

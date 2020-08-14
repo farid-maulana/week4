@@ -1,4 +1,4 @@
-<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+<nav class="main-header navbar navbar-expand-lg navbar-light navbar-white">
   <div class="container">
     <a href="#" class="navbar-brand">
       <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -43,7 +43,8 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           @auth
-            <img src="{{ asset(Auth::user()->profile->photo) }}" class="brand-image img-circle elevation-3" alt="User Image">
+            {{ Auth::user()->name }}
+            <img src="{{ asset(Auth::user()->profile->photo) }}" class="brand-image img-circle elevation-3 ml-3" alt="User Image">
           @endauth
           @guest
             <img src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" class="brand-image img-circle elevation-3" alt="User Image">
