@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Blank Page</title>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>StackOverflow KW | Group 4</title>
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('/adminlte/plugins/fontawesome-free/css/all.min.css') }}">
@@ -15,10 +15,10 @@
   <link rel="stylesheet" href="{{ asset('/adminlte/dist/css/adminlte.min.css') }} ">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
+  <!-- Custom Style -->
   @stack('script-head')
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-collapse layout-top-nav">
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
@@ -30,21 +30,38 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content -->
-    @yield('content')
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark"> @yield('page-title') </h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            @if (request()->segment(2) != 'create')
+              <a href="{{ route('pertanyaan.create') }}" class="btn btn-info float-right">Ask Question</a>
+            @endif
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          @yield('content')
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Footer -->
+  <!-- Main Footer -->
   @include('adminlte.partials.footer')
-  <!-- /.footer -->
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 
@@ -56,7 +73,7 @@
 <script src="{{ asset('adminlte/dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('adminlte/dist/js/demo.js')}}"></script>
-
+<!-- Custom JS -->
 @stack('scripts')
 @include('sweetalert::alert')
 </body>

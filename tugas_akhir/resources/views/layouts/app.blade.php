@@ -28,14 +28,6 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <ul class="navbar-nav">
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{ route('posts.index') }}" class="nav-link">Post</a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{ route('pertanyaan.index') }}" class="nav-link">Pertanyaan</a>
-                    </li>
-                </ul>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">

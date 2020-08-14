@@ -39,12 +39,29 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="/pertanyaan"
-                        class="nav-link {{ (request()->segment(1) == 'pertanyaan') ? 'active' : '' }}">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Pertanyaan</p>
+                    <a href="/pertanyaan" class="nav-link {{ (request()->segment(1) == 'pertanyaan') ? 'active' : '' }}">
+                      <i class="nav-icon fas fa-home"></i>
+                      <p>
+                        Home
+                      </p>
                     </a>
-                </li>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-tag"></i>
+                      <p>
+                        Tags
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-users"></i>
+                      <p>
+                        Users
+                      </p>
+                    </a>
+                  </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
