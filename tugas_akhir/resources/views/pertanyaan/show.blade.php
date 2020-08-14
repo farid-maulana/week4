@@ -20,14 +20,14 @@
                 </div>
                 <div class="info p-2">
                     <p href="#" class="d-inline pr-2">{{ $pertanyaan->user->name }}</p>
-                    <button class="btn {{ $vote["btn1"] }} pl-4 pr-4 ml-2 mr-2" title="{{ $vote["hover1"] }}"
+                    <a class="btn {{ $vote["btn1"] }} pl-4 pr-4 ml-2 mr-2"
                         href="{{ route('vote.pertanyaan', ['pertanyaan' => $pertanyaan->id, 'poin' => '1']) }}">
                         <span class="thumb"><i class="far fa-thumbs-up "></i></span>
-                    </button>
-                    <button class="btn {{ $vote["btn2"] }} pl-4 pr-4" title="{{ $vote["hover2"] }}"
+                    </a>
+                    <a class="btn {{ $vote["btn2"] }} pl-4 pr-4"
                         href="{{ route('vote.pertanyaan', ['pertanyaan' => $pertanyaan->id, 'poin' => '-1']) }}">
                         <span class="thumb"><i class="far fa-thumbs-down"></i></span>
-                    </button>
+                    </a>
                 </div>
                 <div class="info">
 
@@ -125,30 +125,38 @@
                     $vote["down"] = $votes->where('user_id', $user->id)->where('poin', -1)->count() > 0;
                     $vote["btn1"] = $vote["btn2"] = "btn-outline-secondary";
 
+                    // if ($vote["up"]) {
+                    //     $vote["btn1"] = "btn-success disabled";
+                    //     $vote["hover1"] = "Anda Sudah Vote";
+                    // }
+
+                    // if ($vote["poin"] < 15) {
+                    //     $vote["btn2"] = "btn-outline-secondary disabled";
+                    //     $vote["hover2"] = "Poin Kurang dari 15";
+                    // } else {
+                    //     if ($vote["down"]) {
+                    //         $vote["btn2"] = "btn-danger disabled";
+                    //         $vote["hover2"] = "Anda Sudah Vote";
+                    //     }
+                    // }
+
                     if ($vote["up"]) {
                         $vote["btn1"] = "btn-success disabled";
-                        $vote["hover1"] = "Anda Sudah Vote";
                     }
 
-                    if ($vote["poin"] < 15) {
-                        $vote["btn2"] = "btn-outline-secondary disabled";
-                        $vote["hover2"] = "Poin Kurang dari 15";
-                    } else {
-                        if ($vote["down"]) {
-                            $vote["btn2"] = "btn-danger disabled";
-                            $vote["hover2"] = "Anda Sudah Vote";
-                        }
+                    if ($vote["down"]) {
+                        $vote["btn2"] = "btn-danger disabled";
                     }
 
                 @endphp
-                <button class="btn {{ $vote["btn1"] }} pl-4 pr-4 ml-2 mr-2" title="{{ $vote["hover1"] }}"
+                <a class="btn {{ $vote["btn1"] }} pl-4 pr-4 ml-2 mr-2"
                     href="{{ route('vote.jawaban', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id, 'poin' => '1']) }}">
                     <span class="thumb"><i class="far fa-thumbs-up "></i></span>
-                </button>
-                <button class="btn {{ $vote["btn2"] }} pl-4 pr-4" title="{{ $vote["hover2"] }}"
+                </a>
+                <a class="btn {{ $vote["btn2"] }} pl-4 pr-4"
                     href="{{ route('vote.jawaban', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id, 'poin' => '-1']) }}">
                     <span class="thumb"><i class="far fa-thumbs-down"></i></span>
-                </button>
+                </a>
             </div>
         </div>
         <div class="p-2">
