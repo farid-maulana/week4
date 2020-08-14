@@ -19,6 +19,10 @@
                 <div class="info">
                     <p href="#" class="d-block">{{ $pertanyaan->user->name }}</p>
                 </div>
+                <div class="info" style="font-size: 1.4em;">
+                    <i class="far fa-thumbs-up ml-2 mr-2"></i>
+                    <i class="far fa-thumbs-down ml-2 mr-2"></i>
+                </div>
             </div>
             <div class="mt-2 mb-2">
                 <p class="card-text">{!! $pertanyaan->isi !!}</p>
@@ -28,7 +32,6 @@
             @if ($pertanyaan->jawaban_tepat_id != null)
             <div class="card">
                 <div class="card-body bg-secondary">
-
                     <div class="user-panel pt-2 pl-2 d-flex bg-light">
                         <div class="image">
                             <img src="{{ asset($pertanyaan->jawaban_tepat->user->profile->photo) }}"
@@ -110,6 +113,10 @@
                 </div>
                 <div class="info">
                     <p href="#" class="d-block">{{ $j->user->name }}</p>
+                </div>
+                <div class="info" style="font-size: 1.4em;">
+                    <i class="far fa-thumbs-up ml-2 mr-2"></i>
+                    <i class="far fa-thumbs-down ml-2 mr-2"></i>
                 </div>
             </div>
             <div class="p-2">
