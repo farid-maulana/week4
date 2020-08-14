@@ -9,9 +9,7 @@ use App\Tag;
 use Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class PertanyaanController extends Controller
-{
-    //construct function
+class PertanyaanController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
@@ -24,11 +22,7 @@ class PertanyaanController extends Controller
      */
     public function index()
     {
-        // $pertanyaan = DB::table($this->table)->get(); //SELECT * FROM table
         $pertanyaans = Pertanyaan::all();
-        // $user = Auth::user();
-        // $pertanyaans = $user->pertanyaans;
-        //dd($pertanyaan);
         return view('pertanyaan.index', compact('pertanyaans'));
     }
 
@@ -50,7 +44,6 @@ class PertanyaanController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $request->validate([
             'judul' => 'required',
             'isi' => 'required'
@@ -86,12 +79,9 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
-        // $pertanyaan = DB::table($this->table)->where('id', $id)->first(); //SELECT * FROM posts WHERE id
-        //dd($post);
         $pertanyaan = Pertanyaan::find($id);
-        //dd($pertanyaan);
         $jawabans = $pertanyaan->jawabans;
-        //dd($jawabans);
+
         return view('pertanyaan.show', compact('pertanyaan'), compact('jawabans'));
     }
 
@@ -148,14 +138,12 @@ class PertanyaanController extends Controller
      */
     public function destroy($id)
     {
-        // $query = DB::table($this->table)->where('id', $id)->delete();
         Pertanyaan::destroy($id);
         return redirect('/pertanyaan')->with('success', 'Pertanyaan Berhasil dihapus');
     }
 
     public function tepat($id, $jawaban_id)
     {
-        // $query = DB::table($this->table)->where('id', $id)->delete();
         $pertanyaan = Pertanyaan::find($id);
         $pertanyaan->jawaban_tepat_id = $jawaban_id;
         $pertanyaan->save();
@@ -164,7 +152,6 @@ class PertanyaanController extends Controller
 
     public function jawaban(Request $request, $id)
     {
-        //dd($request->all());
         $request->validate([
             'jawaban' => 'required'
         ]);

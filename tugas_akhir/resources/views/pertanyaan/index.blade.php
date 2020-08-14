@@ -1,53 +1,66 @@
 @extends('adminlte.master')
 
-@section('content')
-<div class="mt-3 ml-3">
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Pertanyaan Table Elonquent</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            @if (session('success'))
-            @endif
-            <a class="btn btn-primary mb-2" href="{{ route('pertanyaan.create') }}">Create New Pertanyaan</a>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Judul</th>
-                        <th>Isi</th>
-                        <th>Created At</th>
-                        <th>Last Updated At</th>
-                        <th style="width: 40px">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($pertanyaans as $key => $p)
-                        <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{ $p->judul }}</td>
-                            <td>{!! $p->isi !!}</td>
-                            <td>{{ $p->created_at }}</td>
-                            <td>{{ $p->updated_at }}</td>
-                            <td style="display: flex">
-                                <a href="{{ route('pertanyaan.show', ['pertanyaan' => $p->id]) }}" class="btn btn-info btn-sm">Show</a>
-                                <a href="{{ route('pertanyaan.edit', ['pertanyaan' => $p->id]) }}" class="btn btn-default btn-sm">Edit</a>
-                                <form action="{{ route('pertanyaan.destroy', ['pertanyaan' => $p->id]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="submit" value="!!DELETE!!"  class="btn btn-danger btn-sm">
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" align="center"> No Posts</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+@section('page-title')
+  Top Questions
 @endsection
+
+@section('content')
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+            <a class="btn btn-primary mb-2" href="{{ route('pertanyaan.create') }}">Create New Pertanyaan</a>
+          <tbody>
+            @forelse ($pertanyaans as $key => $p)
+              <tr href="{{ route('pertanyaan.show', ['pertanyaan' => $p->id]) }}">
+                <td align="center">
+                  0
+                  <br>
+                  votes
+                </td>
+                <td align="center">
+                  {{ $p->jawabans->count() }}
+                  <br>
+                  answers
+                </td>
+                <td>
+                  {{ $p->judul }}
+                  <br>
+                  @foreach ($p->tags as $tag)
+                    <span class="badge bg-info">{{ $tag->tag_name }}</span>
+                  @endforeach
+                  <span class="float-right">by {{ $p->user->name }}</span>
+                </td>
+              </tr>
+            @empty
+              <tr>
+                <td colspan="3" align="center">No Questions</td>
+              </tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+@endsection
+
+@push('scripts')
+  <script>
+    $(document).ready(function(){
+      $('table tr').click(function(){
+        window.location = $(this).attr('href');
+        return false;
+      });
+    });
+  </script>
+@endpush
+
+@push('script-head')
+  <style>
+    table tr {
+      cursor: pointer;
+    }
+  </style>
+@endpush
