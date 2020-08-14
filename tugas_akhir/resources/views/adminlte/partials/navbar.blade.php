@@ -17,9 +17,6 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ route('home') }}" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
             <a href="{{ route('pertanyaan.index') }}" class="nav-link">Pertanyaan</a>
         </li>
     </ul>
@@ -51,6 +48,10 @@
           @endguest
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <p class="dropdown-item" href="#">
+            Poin Reputasi : {{ Auth::user()->profile->poin }}
+          </p>
+          <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             {{ __('Logout') }}
           </a>

@@ -66,44 +66,44 @@
 
             </div>
         </div>
-    </div>
 
-    {{-- FOOTER --}}
-    <div class="card-footer text-muted">
-        {{-- KOMENTAR PERTANYAAN --}}
-        @foreach ($pertanyaan->komentars as $komentar)
-        <div class="d-flex mt-2">
-            <div class="p-2 w-100 bd-highlight">
-                <p>{{ $komentar->isi }}</p>
+        {{-- FOOTER --}}
+        <div class="card-footer text-muted">
+            {{-- KOMENTAR PERTANYAAN --}}
+            @foreach ($pertanyaan->komentars as $komentar)
+            <div class="d-flex mt-2">
+                <div class="p-2 w-100 bd-highlight">
+                    <p>{{ $komentar->isi }}</p>
+                </div>
+                <div class="p-2 flex-shrink-1 bd-highlight">
+                    <p>Oleh : {{ $komentar->user->name }}</p>
+                    <p>{{ $komentar->created_at }}</p>
+                </div>
             </div>
-            <div class="p-2 flex-shrink-1 bd-highlight">
-                <p>Oleh : {{ $komentar->user->name }}</p>
-                <p>{{ $komentar->created_at }}</p>
+            <div class="mt-2" style="border-bottom-style:solid; border-bottom-width:thin;"></div>
+            @endforeach
+    
+            {{-- INPUT KOMENTAR PERTANYAAN --}}
+            <div class="card mt-2">
+                <div class="card-body">
+                    <form role="form" action="{{ route('komentar.pertanyaan', ['pertanyaan' => $pertanyaan->id]) }}"
+                        method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm" id="komentar" name="komentar"
+                                value="{{ old('komentar', '') }}" placeholder="Enter komentar">
+                            @error('komentar')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-sm float-left">Tambahkan Komentar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+    
         </div>
-        <div class="mt-2" style="border-bottom-style:solid; border-bottom-width:thin;"></div>
-        @endforeach
-
-        {{-- INPUT KOMENTAR PERTANYAAN --}}
-        <div class="card mt-2">
-            <div class="card-body">
-                <form role="form" action="{{ route('komentar.pertanyaan', ['pertanyaan' => $pertanyaan->id]) }}"
-                    method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <input type="text" class="form-control input-sm" id="komentar" name="komentar"
-                            value="{{ old('komentar', '') }}" placeholder="Enter komentar">
-                        @error('komentar')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-sm float-left">Tambahkan Komentar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
     </div>
 
 </div>
