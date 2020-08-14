@@ -31,13 +31,13 @@ class KomentarController extends Controller
         return redirect(route('pertanyaan.show', ['pertanyaan' => $id]));
     }
 
-    public function jawaban(Request $request, $id)
+    public function jawaban(Request $request, $Pid, $Jid)
     {
         $request->validate([
             'komentar' => 'required',
         ]);
 
-        $jawaban = Jawaban::find($id);
+        $jawaban = Jawaban::find($Jid);
         $user = Auth::user();
 
         $komentar = $jawaban->komentars()->create([
@@ -49,6 +49,6 @@ class KomentarController extends Controller
         //$user->komentar_pertanyaans()->save($komentar);
         Alert::success('Berhasil', 'Berhasil menambah KOMENTAR baru');
 
-        return redirect(route('pertanyaan.show', ['pertanyaan' => $id]));
+        return redirect(route('pertanyaan.show', ['pertanyaan' => $Pid]));
     }
 }

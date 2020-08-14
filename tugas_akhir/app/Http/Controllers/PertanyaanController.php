@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Pertanyaan;
+use App\Jawaban;
 use App\Tag;
 use Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class PertanyaanController extends Controller
-{
-    //construct function
+class PertanyaanController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
@@ -24,12 +23,17 @@ class PertanyaanController extends Controller
      */
     public function index()
     {
-        // $pertanyaan = DB::table($this->table)->get(); //SELECT * FROM table
         $pertanyaans = Pertanyaan::all();
-        // $user = Auth::user();
-        // $pertanyaans = $user->pertanyaans;
-        //dd($pertanyaan);
-        return view('pertanyaan.index', compact('pertanyaans'));
+        $skor_vote = 0;
+        $skor_arr = [];
+        foreach ($pertanyaans as $key => $p) {
+            $votes = $p->votes;
+            foreach ($votes as $vote) {
+                $skor_vote += $vote->poin;
+            }
+            $skor_arr[$key] = $skor_vote;
+        }
+        return view('pertanyaan.index', compact('pertanyaans', 'skor_arr'));
     }
 
     /**
@@ -50,7 +54,6 @@ class PertanyaanController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $request->validate([
             'judul' => 'required',
             'isi' => 'required'
@@ -86,13 +89,36 @@ class PertanyaanController extends Controller
      */
     public function show($id)
     {
-        // $pertanyaan = DB::table($this->table)->where('id', $id)->first(); //SELECT * FROM posts WHERE id
-        //dd($post);
         $pertanyaan = Pertanyaan::find($id);
-        //dd($pertanyaan);
         $jawabans = $pertanyaan->jawabans;
-        //dd($jawabans);
-        return view('pertanyaan.show', compact('pertanyaan'), compact('jawabans'));
+        $votes = $pertanyaan->votes;
+        $user = Auth::user();
+        $vote["user"] = $user;
+        $vote["poin"] = $user->profile->poin;
+        $vote["up"] = $votes->where('user_id', $user->id)->where('poin', 1)->count() > 0;
+        $vote["down"] = $votes->where('user_id', $user->id)->where('poin', -1)->count() > 0;
+        $vote["btn1"] = $vote["btn2"] = "btn-outline-secondary";
+
+        if ($vote["up"]) {
+            $vote["btn1"] = "btn-success disabled";
+        }
+
+
+        if ($vote["down"]) {
+            $vote["btn2"] = "btn-danger disabled";
+        }
+
+        // if ($vote["poin"] < 15) {
+        //     $vote["btn2"] = "btn-outline-secondary disabled";
+        //     $vote["hover2"] = "Poin Kurang dari 15";
+        // } else {
+        //     if ($vote["down"]) {
+        //         $vote["btn2"] = "btn-danger disabled";
+        //         $vote["hover2"] = "Anda Sudah Vote";
+        //     }
+        // }
+
+        return view('pertanyaan.show', compact('pertanyaan', 'jawabans', 'vote'));
     }
 
     /**
@@ -111,9 +137,7 @@ class PertanyaanController extends Controller
             $tag_ids[] = $tag->tag_name;
         }
 
-        //dd($tag_ids);
         $tag_value = implode(',' , $tag_ids);
-        //dd($tag_value);
 
         return view('pertanyaan.edit', compact('pertanyaan'), compact('tag_value'));
     }
@@ -132,10 +156,23 @@ class PertanyaanController extends Controller
             'isi' => 'required'
         ]);
 
+        $tags_arr = explode(',' , $request["tags"]);
+        $tag_ids = [];
+
+        foreach($tags_arr as $tag_name)
+        {
+            $tag = Tag::firstOrCreate(['tag_name' => $tag_name]);
+            $tag_ids[] = $tag->id;
+        }
+
         $update = Pertanyaan::where('id', $id)->update([
             "judul" => $request["judul"],
             "isi" => $request["isi"]
         ]);
+
+        $update->tags()->sync($tag_ids);
+
+        Alert::success('Berhasil', 'Berhasil UPDATE Pertanyaan');
 
         return redirect('/pertanyaan')->with('success', 'Berhasil Update pertanyaan!');
     }
@@ -148,23 +185,39 @@ class PertanyaanController extends Controller
      */
     public function destroy($id)
     {
-        // $query = DB::table($this->table)->where('id', $id)->delete();
         Pertanyaan::destroy($id);
         return redirect('/pertanyaan')->with('success', 'Pertanyaan Berhasil dihapus');
     }
 
     public function tepat($id, $jawaban_id)
     {
-        // $query = DB::table($this->table)->where('id', $id)->delete();
         $pertanyaan = Pertanyaan::find($id);
+        $poin_user = 0;
+        if (!empty($pertanyaan->jawaban_tepat_id)) {
+            $jawaban = $pertanyaan->jawabans->where('id', $pertanyaan->jawaban_tepat_id)->first();
+            $user = $jawaban->user;
+            $poin_user = $user->profile->poin;
+            $poin_user -= 15;
+            $user->profile->poin = $poin_user;
+            $user->profile->save();
+        }
         $pertanyaan->jawaban_tepat_id = $jawaban_id;
         $pertanyaan->save();
+
+        $jawaban = $pertanyaan->jawabans->where('id', $jawaban_id)->first();
+        $user = $jawaban->user;
+        $poin_user = $user->profile->poin;
+        $poin_user += 15;
+        $user->profile->poin = $poin_user;
+        $user->profile->save();
+
+        Alert::success('Berhasil', 'Berhasil menentukan JAWABAN PALING TEPAT');
+
         return redirect(route('pertanyaan.show', ['pertanyaan' => $id]));
     }
 
     public function jawaban(Request $request, $id)
     {
-        //dd($request->all());
         $request->validate([
             'jawaban' => 'required'
         ]);
@@ -174,8 +227,10 @@ class PertanyaanController extends Controller
 
         $jawaban = $pertanyaan->jawabans()->create([
             "isi" => $request["jawaban"],
-            'user_id' => $user->id
+            "user_id" => $user->id
         ]);
+
+
 
         Alert::success('Berhasil', 'Berhasil menambah JAWABAN baru');
 
