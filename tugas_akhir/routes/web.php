@@ -13,16 +13,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-
 Auth::routes();
+Route::resource('pertanyaan', 'PertanyaanController');
 
 Route::get('/', 'HomeController@index')->name('home.index');
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::resource('pertanyaan', 'PertanyaanController');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 //ROUTE MENENTUKAN JAWABAN TEPAT
 Route::get('/pertanyaan/{pertanyaan}/edit/{jawaban}', 'PertanyaanController@tepat')->name('pertanyaan.tepat');

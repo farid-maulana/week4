@@ -15,7 +15,7 @@ class AddFkPertanyaansTable extends Migration
     {
         Schema::table('pertanyaans', function (Blueprint $table) {
             $table->unsignedBigInteger('jawaban_tepat_id')->nullable();
-            $table->foreign('jawaban_tepat_id')->references('id')->on('jawabans');
+            $table->foreign('jawaban_tepat_id')->references('id')->on('jawabans')->onDelete('cascade');
         });
 
     }

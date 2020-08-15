@@ -20,7 +20,7 @@ class CreateProfilesTable extends Migration
             $table->string('photo')->nullable()->default("img/avatar.jpg");
             $table->integer('poin')->nullable()->default(0);
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

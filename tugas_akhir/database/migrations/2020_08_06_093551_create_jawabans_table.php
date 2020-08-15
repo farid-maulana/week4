@@ -20,10 +20,10 @@ class CreateJawabansTable extends Migration
 
             //foreign
             $table->unsignedBigInteger('pertanyaan_id')->nullable();
-            $table->foreign('pertanyaan_id')->references('id')->on('pertanyaans');
+            $table->foreign('pertanyaan_id')->references('id')->on('pertanyaans')->onDelete('cascade');
 
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

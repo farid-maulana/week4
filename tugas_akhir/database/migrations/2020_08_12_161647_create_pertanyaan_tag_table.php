@@ -17,10 +17,11 @@ class CreatePertanyaanTagTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('pertanyaan_id');
             $table->unsignedBigInteger('tag_id');
-            $table->foreign('pertanyaan_id')->references('id')->on('pertanyaans');
-            $table->foreign('tag_id')->references('id')->on('tags');
+            $table->foreign('pertanyaan_id')->references('id')->on('pertanyaans')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
             $table->timestamps();
         });
+
     }
 
     /**

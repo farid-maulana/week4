@@ -20,10 +20,10 @@ class CreateKomentarJawabansTable extends Migration
 
             //FK
             $table->unsignedBigInteger('jawaban_id')->nullable();
-            $table->foreign('jawaban_id')->references('id')->on('jawabans');
+            $table->foreign('jawaban_id')->references('id')->on('jawabans')->onDelete('cascade');
 
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
