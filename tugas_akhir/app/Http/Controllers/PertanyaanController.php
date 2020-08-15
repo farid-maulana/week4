@@ -108,15 +108,11 @@ class PertanyaanController extends Controller {
             $vote["btn2"] = "btn-danger disabled";
         }
 
-        // if ($vote["poin"] < 15) {
-        //     $vote["btn2"] = "btn-outline-secondary disabled";
-        //     $vote["hover2"] = "Poin Kurang dari 15";
-        // } else {
-        //     if ($vote["down"]) {
-        //         $vote["btn2"] = "btn-danger disabled";
-        //         $vote["hover2"] = "Anda Sudah Vote";
-        //     }
-        // }
+        $skor_vote = 0;
+        foreach ($votes as $v) {
+            $skor_vote += $v->poin;
+        }
+        $vote["skor"] = $skor_vote;
 
         return view('pertanyaan.show', compact('pertanyaan', 'jawabans', 'vote'));
     }

@@ -28,7 +28,7 @@
                   @foreach ($p->tags as $tag)
                     <span class="badge bg-info">{{ $tag->tag_name }}</span>
                   @endforeach
-                  <span class="float-right">by {{ $p->user->name }}</span>
+                  <span class="float-right">by {{ $p->user->name }} <i class="fas fa-medal"></i> {{ $p->user->profile->poin }}</span>
                 </td>
               </tr>
             @empty

@@ -56,6 +56,6 @@ Route::post('/vote/pertanyaan/{pertanyaan}jawaban/{jawaban}', 'VoteController@ja
 // });
 // Route::get('/test-dompdf2', 'PdfController@test');
 // Route::get('/posts-export', 'PostController@export');
-// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-//     \UniSharp\LaravelFilemanager\Lfm::routes();
-// });
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});

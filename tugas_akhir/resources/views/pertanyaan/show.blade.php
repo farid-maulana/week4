@@ -19,12 +19,15 @@
                         alt="User Image">
                 </div>
                 <div class="info p-2">
-                    <p href="#" class="d-inline pr-2">{{ $pertanyaan->user->name }}</p>
-                    <a class="btn {{ $vote["btn1"] }} pl-4 pr-4 ml-2 mr-2"
+                    <p href="#" class="d-inline pr-2">{{ $pertanyaan->user->name }}     <i class="fas fa-medal"></i> {{ $pertanyaan->user->profile->poin }}</p>
+                    <a class="btn {{ $vote["btn1"] }} pl-4 pr-4 ml-2 mr-1"
                         href="{{ route('vote.pertanyaan', ['pertanyaan' => $pertanyaan->id, 'poin' => '1']) }}">
                         <span class="thumb"><i class="far fa-thumbs-up "></i></span>
                     </a>
-                    <a class="btn {{ $vote["btn2"] }} pl-4 pr-4"
+                    <a class="btn btn-outline-warning pl-5 pr-5 ml-1 mr-1">
+                        <span class="thumb">{{ $vote["skor"] }}</i></span>
+                    </a>
+                    <a class="btn {{ $vote["btn2"] }} pl-4 pr-4 ml-1"
                         href="{{ route('vote.pertanyaan', ['pertanyaan' => $pertanyaan->id, 'poin' => '-1']) }}">
                         <span class="thumb"><i class="far fa-thumbs-down"></i></span>
                     </a>
@@ -47,7 +50,7 @@
                                 class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
-                            <p href="" class="d-inline">{{ $pertanyaan->jawaban_tepat->user->name }}</p>
+                            <p href="" class="d-inline">{{ $pertanyaan->jawaban_tepat->user->name }} <i class="fas fa-medal"></i> {{ $pertanyaan->jawaban_tepat->user->profile->poin }}</p>
                             <button type="button" class="btn btn-success btn-sm ml-2">Jawaban Tepat</button>
                         </div>
                     </div>
@@ -82,7 +85,7 @@
             </div>
             <div class="mt-2" style="border-bottom-style:solid; border-bottom-width:thin;"></div>
             @endforeach
-    
+
             {{-- INPUT KOMENTAR PERTANYAAN --}}
             <div class="card mt-2">
                 <div class="card-body">
@@ -102,7 +105,7 @@
                     </form>
                 </div>
             </div>
-    
+
         </div>
     </div>
 
@@ -110,35 +113,20 @@
 
 <!-- SEMUA JAWABAN -->
 @foreach ($jawabans as $j)
-<div class="card m-2">
+<div class="card m-2 w-100">
     <div class="card-body bg-secondary">
         <div class="user-panel pt-2 pl-2 d-flex bg-light">
             <div class="image p-2">
                 <img src="{{ asset($j->user->profile->photo) }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info p-2">
-                <p href="#" class="d-inline pr-2">{{ $j->user->name }}</p>
+                <p href="#" class="d-inline pr-2">{{ $j->user->name }} <i class="fas fa-medal"></i> {{ $j->user->profile->poin }}</p>
                 @php
                     $user = $vote["user"];
                     $votes = $j->votes;
                     $vote["up"] = $votes->where('user_id', $user->id)->where('poin', 1)->count() > 0;
                     $vote["down"] = $votes->where('user_id', $user->id)->where('poin', -1)->count() > 0;
                     $vote["btn1"] = $vote["btn2"] = "btn-outline-secondary";
-
-                    // if ($vote["up"]) {
-                    //     $vote["btn1"] = "btn-success disabled";
-                    //     $vote["hover1"] = "Anda Sudah Vote";
-                    // }
-
-                    // if ($vote["poin"] < 15) {
-                    //     $vote["btn2"] = "btn-outline-secondary disabled";
-                    //     $vote["hover2"] = "Poin Kurang dari 15";
-                    // } else {
-                    //     if ($vote["down"]) {
-                    //         $vote["btn2"] = "btn-danger disabled";
-                    //         $vote["hover2"] = "Anda Sudah Vote";
-                    //     }
-                    // }
 
                     if ($vote["up"]) {
                         $vote["btn1"] = "btn-success disabled";
@@ -148,12 +136,21 @@
                         $vote["btn2"] = "btn-danger disabled";
                     }
 
+                    $skor_vote = 0;
+                    foreach ($votes as $v) {
+                        $skor_vote += $v->poin;
+                    }
+                    $vote["skor"] = $skor_vote;
+
                 @endphp
-                <a class="btn {{ $vote["btn1"] }} pl-4 pr-4 ml-2 mr-2"
+                <a class="btn {{ $vote["btn1"] }} pl-4 pr-4 ml-1 mr-1"
                     href="{{ route('vote.jawaban', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id, 'poin' => '1']) }}">
                     <span class="thumb"><i class="far fa-thumbs-up "></i></span>
                 </a>
-                <a class="btn {{ $vote["btn2"] }} pl-4 pr-4"
+                <a class="btn btn-outline-warning pl-5 pr-5 ml-1 mr-1">
+                    <span class="thumb">{{ $vote["skor"] }}</i></span>
+                </a>
+                <a class="btn {{ $vote["btn2"] }} pl-4 pr-4 ml-1"
                     href="{{ route('vote.jawaban', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id, 'poin' => '-1']) }}">
                     <span class="thumb"><i class="far fa-thumbs-down"></i></span>
                 </a>

@@ -1,7 +1,7 @@
 <nav class="main-header navbar navbar-expand-lg navbar-light navbar-white">
   <div class="container">
     <a href="#" class="navbar-brand">
-      <img src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      <img src="{{ asset('img/4.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">StackOverflow KW</span>
     </a>
