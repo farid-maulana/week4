@@ -1,4 +1,4 @@
-<nav class="main-header navbar navbar-expand-lg navbar-light navbar-white">
+<nav class="main-header navbar navbar-expand-lg navbar-light navbar-white sticky-top">
   <div class="container">
     <a href="#" class="navbar-brand">
       <img src="{{ asset('img/4.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
