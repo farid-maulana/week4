@@ -25,15 +25,16 @@ class PertanyaanController extends Controller {
     public function index()
     {
         $pertanyaans = Pertanyaan::all();
-        $skor_vote = 0;
         $skor_arr = [];
         foreach ($pertanyaans as $key => $p) {
             $votes = $p->votes;
+            $skor_vote = 0;
             foreach ($votes as $vote) {
                 $skor_vote += $vote->poin;
             }
             $skor_arr[$key] = $skor_vote;
         }
+
         return view('pertanyaan.index', compact('pertanyaans', 'skor_arr'));
     }
 
