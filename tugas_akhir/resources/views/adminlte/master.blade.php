@@ -16,6 +16,7 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- Custom Style -->
+  <link rel="icon" href="{{ asset('/img/4.png') }}" type="image/x-icon"/>
   <link rel="stylesheet" href="{{ asset('/css/style.css') }} ">
   @stack('script-head')
 </head>

@@ -9,6 +9,7 @@ use App\Jawaban;
 use App\Tag;
 use Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Helpers\Vote;
 
 class PertanyaanController extends Controller {
     public function __construct()
@@ -95,24 +96,7 @@ class PertanyaanController extends Controller {
         $user = Auth::user();
         $vote["user"] = $user;
         $vote["poin"] = $user->profile->poin;
-        $vote["up"] = $votes->where('user_id', $user->id)->where('poin', 1)->count() > 0;
-        $vote["down"] = $votes->where('user_id', $user->id)->where('poin', -1)->count() > 0;
-        $vote["btn1"] = $vote["btn2"] = "btn-outline-secondary";
-
-        if ($vote["up"]) {
-            $vote["btn1"] = "btn-success disabled";
-        }
-
-
-        if ($vote["down"]) {
-            $vote["btn2"] = "btn-danger disabled";
-        }
-
-        $skor_vote = 0;
-        foreach ($votes as $v) {
-            $skor_vote += $v->poin;
-        }
-        $vote["skor"] = $skor_vote;
+        include(app_path().'\Http\Helpers\VoteLogic.php');
 
         return view('pertanyaan.show', compact('pertanyaan', 'jawabans', 'vote'));
     }
