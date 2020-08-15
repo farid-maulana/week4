@@ -32,9 +32,6 @@
                         <span class="thumb"><i class="far fa-thumbs-down"></i></span>
                     </a>
                 </div>
-                <div class="info">
-
-                </div>
             </div>
             <div class="mt-2 mb-2">
                 <p class="card-text">{!! $pertanyaan->isi !!}</p>
@@ -68,13 +65,16 @@
                 @endforeach
 
             </div>
-            {{-- MENAMPILKAN TOMBOL EDIT PERTANYAAN --}}
-            {{-- jika id user aktif sama dengan id pembuat pertanyaan --}}
-            @if ($vote["user"]->id == $pertanyaan->user->id)
-            <div class="m-2 float-right">
-                <a href="/pertanyaan/{{ $pertanyaan->id }}/edit" class="btn btn-info btn-md">Edit Pertanyaan</a>
+            <div class="m-2">
+                Created at : {{ $pertanyaan->created_at }}
+                <br>
+                Updated at : {{ $pertanyaan->updated_at }}
+                {{-- MENAMPILKAN TOMBOL EDIT PERTANYAAN --}}
+                {{-- jika id user aktif sama dengan id pembuat pertanyaan --}}
+                @if ($vote["user"]->id == $pertanyaan->user->id)
+                    <a href="/pertanyaan/{{ $pertanyaan->id }}/edit" class="btn btn-info btn-md float-right">Edit Pertanyaan</a>
+                @endif
             </div>
-            @endif
         </div>
 
         {{-- FOOTER --}}
@@ -181,13 +181,16 @@
         <div class="p-2">
             <p class="card-text">{!! $j->isi !!}</p>
         </div>
-        {{-- MENAMPILKAN TOMBOL EDIT JAWABAN --}}
-        {{-- jika id user aktif sama dengan id pembuat jawaban --}}
-        @if ($vote["user"]->id == $j->user->id)
-        <div class="m-2 float-right">
-            <a href="{{ route('jawaban.edit', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id]) }}" class="btn btn-info btn-md">Edit Jawaban</a>
+        <div class="m-2">
+            Created at : {{ $j->created_at }}
+            <br>
+            Updated at : {{ $j->updated_at }}
+            {{-- MENAMPILKAN TOMBOL EDIT JAWABAN --}}
+            {{-- jika id user aktif sama dengan id pembuat jawaban --}}
+            @if ($vote["user"]->id == $j->user->id)
+            <a href="{{ route('jawaban.edit', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id]) }}" class="btn btn-info btn-md float-right">Edit Jawaban</a>
+            @endif
         </div>
-        @endif
 
         {{-- MENAMPILKAN TOMBOL JAWABAN TERBAIK --}}
         {{-- jika id user aktif sama dengan id pembuat pertanyaan dan bukan pembuat jawaban dan jawaban bukan jawaban tepat, maka dapat menentukan jawaban terbaik --}}
