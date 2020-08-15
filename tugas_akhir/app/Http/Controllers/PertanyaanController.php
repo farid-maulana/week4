@@ -139,7 +139,7 @@ class PertanyaanController extends Controller {
 
         $tag_value = implode(',' , $tag_ids);
 
-        return view('pertanyaan.edit', compact('pertanyaan'), compact('tag_value'));
+        return view('pertanyaan.edit', compact('pertanyaan', 'tag_value'));
     }
 
     /**
@@ -165,16 +165,18 @@ class PertanyaanController extends Controller {
             $tag_ids[] = $tag->id;
         }
 
-        $update = Pertanyaan::where('id', $id)->update([
+        Pertanyaan::where('id', $id)->update([
             "judul" => $request["judul"],
             "isi" => $request["isi"]
         ]);
-
+        //dd($update);
+        $update = Pertanyaan::find($id);
+        //dd($update);
         $update->tags()->sync($tag_ids);
 
         Alert::success('Berhasil', 'Berhasil UPDATE Pertanyaan');
 
-        return redirect('/pertanyaan')->with('success', 'Berhasil Update pertanyaan!');
+        return redirect(route('pertanyaan.show', ['pertanyaan' => $id]))->with('success', 'Berhasil Update pertanyaan!');
     }
 
     /**
@@ -230,7 +232,24 @@ class PertanyaanController extends Controller {
             "user_id" => $user->id
         ]);
 
+        Alert::success('Berhasil', 'Berhasil menambah JAWABAN baru');
 
+        return redirect(route('pertanyaan.show', ['pertanyaan' => $id]));
+    }
+
+    public function updateJawaban(Request $request, $id)
+    {
+        $request->validate([
+            'jawaban' => 'required'
+        ]);
+
+        $pertanyaan = Pertanyaan::find($id);
+        $user = Auth::user();
+
+        $jawaban = $pertanyaan->jawabans()->create([
+            "isi" => $request["jawaban"],
+            "user_id" => $user->id
+        ]);
 
         Alert::success('Berhasil', 'Berhasil menambah JAWABAN baru');
 

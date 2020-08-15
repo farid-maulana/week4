@@ -23,11 +23,15 @@ Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/pertanyaan/{pertanyaan}/edit/{jawaban}', 'PertanyaanController@tepat')->name('pertanyaan.tepat');
 
 //ROUTE MENAMBAH JAWABAN
-Route::post('/pertanyaan/{pertanyaan}/jawaban', 'PertanyaanController@jawaban')->name('pertanyaan.jawaban');
+Route::post('/pertanyaan/{pertanyaan}/jawaban', 'JawabanController@store')->name('jawaban.store');
+Route::get('/pertanyaan/{pertanyaan}/jawaban/{jawaban}/edit', 'JawabanController@edit')->name('jawaban.edit');
+Route::put('/pertanyaan/{pertanyaan}/jawaban/{jawaban}', 'JawabanController@update')->name('jawaban.update');
 
 //ROUTE MENAMBAH KOMENTAR
 Route::post('/komentar/pertanyaan/{pertanyaan}', 'KomentarController@pertanyaan')->name('komentar.pertanyaan');
 Route::post('/komentar/pertanyaan/{pertanyaan}/jawaban/{jawaban}', 'KomentarController@jawaban')->name('komentar.jawaban');
+Route::delete('/komentar/pertanyaan/{pertanyaan}/{komentar}', 'KomentarController@destroyPertanyaan')->name('komentar.pertanyaanDestroy');
+Route::delete('/komentar/pertanyaan/{pertanyaan}/Jawaban/{komentar}', 'KomentarController@destroyJawaban')->name('komentar.jawabanDestroy');
 
 //ROUTE MENAMBAH VOTE
 Route::get('/vote/pertanyaan/{pertanyaan}/{poin}', 'VoteController@pertanyaan')->name('vote.pertanyaan');

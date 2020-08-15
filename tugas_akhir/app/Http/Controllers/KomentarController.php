@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Pertanyaan;
 use App\Jawaban;
+use App\Komentar_Pertanyaan;
+use App\Komentar_Jawaban;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class KomentarController extends Controller
@@ -49,6 +51,22 @@ class KomentarController extends Controller
         //$user->komentar_pertanyaans()->save($komentar);
         Alert::success('Berhasil', 'Berhasil menambah KOMENTAR baru');
 
+        return redirect(route('pertanyaan.show', ['pertanyaan' => $Pid]));
+    }
+
+    public function destroyPertanyaan($Pid, $Kid)
+    {
+
+        Komentar_Pertanyaan::destroy($Kid);
+        Alert::success('Berhasil', 'Berhasil menghapus KOMENTAR');
+        return redirect(route('pertanyaan.show', ['pertanyaan' => $Pid]));
+    }
+
+    public function destroyJawaban($Pid, $Kid)
+    {
+
+        Komentar_Jawaban::destroy($Kid);
+        Alert::success('Berhasil', 'Berhasil menghapus KOMENTAR');
         return redirect(route('pertanyaan.show', ['pertanyaan' => $Pid]));
     }
 }

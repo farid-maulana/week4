@@ -68,6 +68,13 @@
                 @endforeach
 
             </div>
+            {{-- MENAMPILKAN TOMBOL EDIT PERTANYAAN --}}
+            {{-- jika id user aktif sama dengan id pembuat pertanyaan --}}
+            @if ($vote["user"]->id == $pertanyaan->user->id)
+            <div class="m-2 float-right">
+                <a href="/pertanyaan/{{ $pertanyaan->id }}/edit" class="btn btn-info btn-md">Edit Pertanyaan</a>
+            </div>
+            @endif
         </div>
 
         {{-- FOOTER --}}
@@ -81,6 +88,16 @@
                 <div class="p-2 flex-shrink-1 bd-highlight">
                     <p>Oleh : {{ $komentar->user->name }}</p>
                     <p>{{ $komentar->created_at }}</p>
+                    {{-- MENAMPILKAN TOMBOL HAPUS KOMENTAR --}}
+                    {{-- jika id user aktif sama dengan id pembuat komentar --}}
+                    @if ($vote["user"]->id == $komentar->user->id)
+                    <form action="{{ route('komentar.pertanyaanDestroy', ['pertanyaan' => $pertanyaan->id, 'komentar' => $komentar->id]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <input type="submit" value="Hapus Komentar"  class="btn btn-danger btn-sm">
+                    </form>
+                    @endif
+
                 </div>
             </div>
             <div class="mt-2" style="border-bottom-style:solid; border-bottom-width:thin;"></div>
@@ -164,8 +181,15 @@
         <div class="p-2">
             <p class="card-text">{!! $j->isi !!}</p>
         </div>
+        {{-- MENAMPILKAN TOMBOL EDIT JAWABAN --}}
+        {{-- jika id user aktif sama dengan id pembuat jawaban --}}
+        @if ($vote["user"]->id == $j->user->id)
+        <div class="m-2 float-right">
+            <a href="{{ route('jawaban.edit', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id]) }}" class="btn btn-info btn-md">Edit Jawaban</a>
+        </div>
+        @endif
 
-        {{-- MENGELUARKAN TOMBOL JAWABAN TERBAIK --}}
+        {{-- MENAMPILKAN TOMBOL JAWABAN TERBAIK --}}
         {{-- jika id user aktif sama dengan id pembuat pertanyaan dan bukan pembuat jawaban dan jawaban bukan jawaban tepat, maka dapat menentukan jawaban terbaik --}}
         @if ($user->id == $pertanyaan->user->id && $user->id != $j->user->id && $pertanyaan->jawaban_tepat_id != $j->id)
         <a href="{{ route('pertanyaan.tepat', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id]) }}"
@@ -177,7 +201,7 @@
     {{-- FOOTER --}}
     <div class="card-footer text-muted">
 
-        {{-- KOMENTAR JAWWABAN --}}
+        {{-- KOMENTAR JAWABAN --}}
         @foreach ($j->komentars as $komentar)
         <div class="d-flex mt-2">
             <div class="p-2 w-100 bd-highlight">
@@ -186,7 +210,15 @@
             <div class="p-2 flex-shrink-1 bd-highlight">
                 <p>Oleh : {{ $komentar->user->name }}</p>
                 <p>{{ $komentar->created_at }}</p>
-
+                {{-- MENAMPILKAN TOMBOL HAPUS KOMENTAR --}}
+                {{-- jika id user aktif sama dengan id pembuat komentar --}}
+                @if ($vote["user"]->id == $komentar->user->id)
+                <form action="{{ route('komentar.jawabanDestroy', ['pertanyaan' => $pertanyaan->id, 'komentar' => $komentar->id]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <input type="submit" value="Hapus Komentar"  class="btn btn-danger btn-sm">
+                </form>
+                @endif
             </div>
         </div>
         <div class="mt-2" style="border-bottom-style:solid; border-bottom-width:thin;">
@@ -223,7 +255,7 @@
 
 {{-- INPUT JAWABAN ANDA --}}
 <div class="w-100">
-    <form role="form" action="{{ route('pertanyaan.jawaban', ['pertanyaan' => $pertanyaan->id]) }}" method="POST">
+    <form role="form" action="{{ route('jawaban.store', ['pertanyaan' => $pertanyaan->id]) }}" method="POST">
         @csrf
         <div class="card-body">
             <div class="form-group">

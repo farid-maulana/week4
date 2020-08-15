@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-<div class="ml-3 mt-3">
+<div class="ml-3 mt-3 w-100">
     <div class="card card-primary">
         <div class="card-header">
             <h3 class="card-title">Edit Pertanyaan {{ $pertanyaan->id }}</h3>
