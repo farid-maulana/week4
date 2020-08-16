@@ -30,7 +30,7 @@
                   @endforeach
                   <span class="mr-1 ml-2"> Created at : {{ $p->created_at }} </span>
                   <span class="mr-2 ml-1"> Updated at : {{ $p->updated_at }} </span>
-                  <span class="float-right">by {{ $p->user->name }} <i class="fas fa-medal"></i> {{ $p->user->profile->poin }}</span>
+                  <span class="float-right">by {{ $p->user->name }} <span class="right badge badge-warning"><i class="fas fa-medal"></i> {{ $p->user->profile->poin }}</span></span>
                 </td>
               </tr>
             @empty

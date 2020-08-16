@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::resource('pertanyaan', 'PertanyaanController');
-
-Route::get('/', 'HomeController@index')->name('home.index');
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'PertanyaanController@index')->name('home');
 
 //ROUTE MENENTUKAN JAWABAN TEPAT
 Route::get('/pertanyaan/{pertanyaan}/edit/{jawaban}', 'PertanyaanController@tepat')->name('pertanyaan.tepat');
@@ -40,12 +38,11 @@ Route::get('/vote/pertanyaan/{pertanyaan}/jawaban/{jawaban}/{poin}', 'VoteContro
 Route::post('/vote/pertanyaan/{pertanyaan}jawaban/{jawaban}', 'VoteController@jawaban_upvote')->name('vote.jawaban_upvote');
 Route::post('/vote/pertanyaan/{pertanyaan}jawaban/{jawaban}', 'VoteController@jawaban_downvote')->name('vote.jawaban_downvote');
 
-// Route::resource('posts', 'PostController');
-// Route::resource('postings', 'PostingController')->middleware('auth');
-
-
-
 //PACKAGES
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
 // Route::get('/test-dompdf', function(){
 
 //     $pdf = App::make('dompdf.wrapper');
@@ -55,6 +52,4 @@ Route::post('/vote/pertanyaan/{pertanyaan}jawaban/{jawaban}', 'VoteController@ja
 // });
 // Route::get('/test-dompdf2', 'PdfController@test');
 // Route::get('/posts-export', 'PostController@export');
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-    \UniSharp\LaravelFilemanager\Lfm::routes();
-});
+
