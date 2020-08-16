@@ -10,6 +10,9 @@
 
     <title>StackOverflow KW | Group 4</title>
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('/adminlte/plugins/fontawesome-free/css/all.min.css') }}">
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -47,11 +50,14 @@
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link text-primary" href="{{ route('login') }}"><i class="fas fa-sign-in-alt fa-fw mr-1 fa-sm"></i>{{ __('Login') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <p class="nav-link">|</p>
                         </li>
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link text-primary" href="{{ route('register') }}"><i class="fas fa-address-card fa-fw mr-1 fa-sm"></i>{{ __('Register') }}</a>
                         </li>
                         @endif
                         @else

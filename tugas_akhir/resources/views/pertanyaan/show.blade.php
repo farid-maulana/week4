@@ -69,11 +69,13 @@
                 Created at : {{ $pertanyaan->created_at }}
                 <br>
                 Updated at : {{ $pertanyaan->updated_at }}
+                @auth
                 {{-- MENAMPILKAN TOMBOL EDIT PERTANYAAN --}}
                 {{-- jika id user aktif sama dengan id pembuat pertanyaan --}}
                 @if ($vote["user"]->id == $pertanyaan->user->id)
                     <a href="/pertanyaan/{{ $pertanyaan->id }}/edit" class="btn btn-info btn-md float-right">Edit Pertanyaan</a>
                 @endif
+                @endauth
             </div>
         </div>
 
@@ -88,9 +90,13 @@
                 <div class="p-2 flex-shrink-1 bd-highlight">
                     <p>Oleh : {{ $komentar->user->name }}</p>
                     <p>{{ $komentar->created_at }}</p>
+
+                    @auth
                     {{-- MENAMPILKAN TOMBOL HAPUS KOMENTAR --}}
                     {{-- jika id user aktif sama dengan id pembuat komentar --}}
                     @if ($vote["user"]->id == $komentar->user->id)
+                    @endauth
+
                     <form action="{{ route('komentar.pertanyaanDestroy', ['pertanyaan' => $pertanyaan->id, 'komentar' => $komentar->id]) }}" method="POST">
                         @csrf
                         @method('DELETE')
@@ -139,31 +145,33 @@
             <div class="info p-2">
                 <p href="#" class="d-inline pr-2">{{ $j->user->name }} <i class="fas fa-medal"></i> {{ $j->user->profile->poin }}</p>
 
-                @php
-                    $user = $vote["user"];
-                    $votes = $j->votes;
-                    $vote["up"] = $votes->where('user_id', $user->id)->where('poin', 1)->count() > 0;
-                    $vote["down"] = $votes->where('user_id', $user->id)->where('poin', -1)->count() > 0;
-                    $vote["btn1"] = $vote["btn2"] = "btn-outline-secondary";
+                @auth
+                    @php
+                        $user = $vote["user"];
+                        $votes = $j->votes;
+                        $vote["up"] = $votes->where('user_id', $user->id)->where('poin', 1)->count() > 0;
+                        $vote["down"] = $votes->where('user_id', $user->id)->where('poin', -1)->count() > 0;
+                        $vote["btn1"] = $vote["btn2"] = "btn-outline-secondary";
 
-                    if ($vote["up"]) {
-                        $vote["btn1"] = "btn-success disabled";
-                    }
-
-                    if ($vote["down"]) {
-                        $vote["btn2"] = "btn-danger disabled";
-                    } else {
-                        if ($vote["poin"] < 15) {
-                            $vote["btn2"] = "btn-outline-secondary disabled";
+                        if ($vote["up"]) {
+                            $vote["btn1"] = "btn-success disabled";
                         }
-                    }
 
-                    $skor_vote = 0;
-                    foreach ($votes as $v) {
-                        $skor_vote += $v->poin;
-                    }
-                    $vote["skor"] = $skor_vote;
-                @endphp
+                        if ($vote["down"]) {
+                            $vote["btn2"] = "btn-danger disabled";
+                        } else {
+                            if ($vote["poin"] < 15) {
+                                $vote["btn2"] = "btn-outline-secondary disabled";
+                            }
+                        }
+
+                        $skor_vote = 0;
+                        foreach ($votes as $v) {
+                            $skor_vote += $v->poin;
+                        }
+                        $vote["skor"] = $skor_vote;
+                    @endphp
+                @endauth
 
                 <a class="btn {{ $vote["btn1"] }} pl-4 pr-4 ml-1 mr-1"
                     href="{{ route('vote.jawaban', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id, 'poin' => '1']) }}">
@@ -185,19 +193,25 @@
             Created at : {{ $j->created_at }}
             <br>
             Updated at : {{ $j->updated_at }}
+
+            @auth
             {{-- MENAMPILKAN TOMBOL EDIT JAWABAN --}}
             {{-- jika id user aktif sama dengan id pembuat jawaban --}}
             @if ($vote["user"]->id == $j->user->id)
             <a href="{{ route('jawaban.edit', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id]) }}" class="btn btn-info btn-md float-right">Edit Jawaban</a>
             @endif
+            @endauth
+
         </div>
 
-        {{-- MENAMPILKAN TOMBOL JAWABAN TERBAIK --}}
-        {{-- jika id user aktif sama dengan id pembuat pertanyaan dan bukan pembuat jawaban dan jawaban bukan jawaban tepat, maka dapat menentukan jawaban terbaik --}}
-        @if ($user->id == $pertanyaan->user->id && $user->id != $j->user->id && $pertanyaan->jawaban_tepat_id != $j->id)
-        <a href="{{ route('pertanyaan.tepat', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id]) }}"
-            class="btn btn-primary">Jadikan Paling Tepat</a>
-        @endif
+        @auth
+            {{-- MENAMPILKAN TOMBOL JAWABAN TERBAIK --}}
+            {{-- jika id user aktif sama dengan id pembuat pertanyaan dan bukan pembuat jawaban dan jawaban bukan jawaban tepat, maka dapat menentukan jawaban terbaik --}}
+            @if ($user->id == $pertanyaan->user->id && $user->id != $j->user->id && $pertanyaan->jawaban_tepat_id != $j->id)
+            <a href="{{ route('pertanyaan.tepat', ['pertanyaan' => $pertanyaan->id, 'jawaban' => $j->id]) }}"
+                class="btn btn-primary">Jadikan Paling Tepat</a>
+            @endif
+        @endauth
 
     </div>
 
@@ -213,6 +227,8 @@
             <div class="p-2 flex-shrink-1 bd-highlight">
                 <p>Oleh : {{ $komentar->user->name }}</p>
                 <p>{{ $komentar->created_at }}</p>
+
+                @auth
                 {{-- MENAMPILKAN TOMBOL HAPUS KOMENTAR --}}
                 {{-- jika id user aktif sama dengan id pembuat komentar --}}
                 @if ($vote["user"]->id == $komentar->user->id)
@@ -222,6 +238,8 @@
                     <input type="submit" value="Hapus Komentar"  class="btn btn-danger btn-sm">
                 </form>
                 @endif
+                @endauth
+
             </div>
         </div>
         <div class="mt-2" style="border-bottom-style:solid; border-bottom-width:thin;">

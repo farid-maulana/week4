@@ -7,14 +7,17 @@ use DB;
 use App\Pertanyaan;
 use App\Jawaban;
 use App\Tag;
+use App\User;
 use Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Helpers\Vote;
 
-class PertanyaanController extends Controller {
+class PertanyaanController extends Controller
+{
+
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index', 'show']);
     }
 
     /**
@@ -94,30 +97,33 @@ class PertanyaanController extends Controller {
         $pertanyaan = Pertanyaan::find($id);
         $jawabans = $pertanyaan->jawabans;
         $votes = $pertanyaan->votes;
-        $user = Auth::user();
-        $vote["user"] = $user;
-        $vote["poin"] = $user->profile->poin;
-        $vote["up"] = $votes->where('user_id', $user->id)->where('poin', 1)->count() > 0;
-        $vote["down"] = $votes->where('user_id', $user->id)->where('poin', -1)->count() > 0;
         $vote["btn1"] = $vote["btn2"] = "btn-outline-secondary";
-
-        if ($vote["up"]) {
-            $vote["btn1"] = "btn-success disabled";
-        }
-
-        if ($vote["down"]) {
-            $vote["btn2"] = "btn-danger disabled";
-        } else {
-            if ($vote["poin"] < 15) {
-                $vote["btn2"] = "btn-outline-secondary disabled";
-            }
-        }
 
         $skor_vote = 0;
         foreach ($votes as $v) {
             $skor_vote += $v->poin;
         }
         $vote["skor"] = $skor_vote;
+        $vote["user"] = new User;
+        if (Auth::check()) {
+            $user = Auth::user();
+            $vote["user"] = $user;
+            $vote["poin"] = $user->profile->poin;
+            $vote["up"] = $votes->where('user_id', $user->id)->where('poin', 1)->count() > 0;
+            $vote["down"] = $votes->where('user_id', $user->id)->where('poin', -1)->count() > 0;
+
+            if ($vote["up"]) {
+                $vote["btn1"] = "btn-success disabled";
+            }
+
+            if ($vote["down"]) {
+                $vote["btn2"] = "btn-danger disabled";
+            } else {
+                if ($vote["poin"] < 15) {
+                    $vote["btn2"] = "btn-outline-secondary disabled";
+                }
+            }
+        }
 
         return view('pertanyaan.show', compact('pertanyaan', 'jawabans', 'vote'));
     }

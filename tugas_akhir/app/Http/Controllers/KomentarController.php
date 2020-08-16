@@ -12,6 +12,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class KomentarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function pertanyaan(Request $request, $id)
     {
         $request->validate([

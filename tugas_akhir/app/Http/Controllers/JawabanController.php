@@ -10,6 +10,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class JawabanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function store(Request $request, $id)
     {
         $request->validate([

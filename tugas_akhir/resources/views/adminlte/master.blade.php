@@ -40,7 +40,7 @@
             <h1 class="m-0 text-dark"> @yield('page-title') </h1>
           </div><!-- /.col -->
           <div class="col-sm-2">
-            @if (request()->segment(2) != 'create')
+            @if (request()->segment(1) == 'pertanyaan' && request()->segment(2) != 'create')
               <a href="{{ route('pertanyaan.create') }}" class="btn btn-info float-right">Ask Question</a>
             @endif
           </div><!-- /.col -->

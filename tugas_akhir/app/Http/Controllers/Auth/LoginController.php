@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Routing\Route;
@@ -29,6 +30,7 @@ class LoginController extends Controller
     {
         $user = Auth::user();
         $nama = $user->profile->full_name;
+
         Alert::success('Berhasil Log  In', "Selamat Datang Kembali $nama");
         return redirect(route('pertanyaan.index'));
     }
@@ -48,5 +50,17 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        Alert::success('Berhasil Log Out', "Terima Kasih");
+        return redirect(route('pertanyaan.index'));
     }
 }

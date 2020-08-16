@@ -10,6 +10,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class VoteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function pertanyaan($id, $poin)
     {
 
@@ -62,6 +67,11 @@ class VoteController extends Controller
 
     public function jawaban($Pid, $Jid, $poin)
     {
+        if (!Auth::check()) {
+            Alert::error('Gagal', 'Anda Harus Log In Terlebih Dahulu');
+            return redirect(route('login'));
+        }
+
         $jawaban = Jawaban::find($Jid);
 
         //CEK APAKAH SUDAH PERNAH MELAKUKAN VOTE
@@ -84,6 +94,7 @@ class VoteController extends Controller
                 $user_aktif->profile->save();
             }
             $votes->where('user_id', $user_aktif->id)->first()->delete();
+
         }
 
         //AKHIR DARI CEK
