@@ -1,3 +1,7 @@
 .thumb {
     font-size:1.4em;
 }
+
+.class-text {
+    flex-wrap: wrap;
+}

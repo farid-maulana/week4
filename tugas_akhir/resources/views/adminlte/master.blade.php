@@ -35,9 +35,9 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">
-        <div class="row mb-2">
+        <div class="row">
           <div class="col-sm-10">
-            <h1 class="m-0 text-dark"> @yield('page-title') </h1>
+              @yield('page-header')
           </div><!-- /.col -->
           <div class="col-sm-2">
             @if (request()->segment(1) == 'pertanyaan' && request()->segment(2) != 'create')
