@@ -17,7 +17,7 @@ class PertanyaanController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'show', 'redirectIndex']);
     }
 
     public function index()
@@ -34,6 +34,11 @@ class PertanyaanController extends Controller
         }
 
         return view('pertanyaan.index', compact('pertanyaans', 'skor_arr'));
+    }
+
+    public function redirectIndex()
+    {
+        return redirect(route('pertanyaan.index'));
     }
 
     public function create()
