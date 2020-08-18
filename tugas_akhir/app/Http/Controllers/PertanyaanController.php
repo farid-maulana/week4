@@ -20,11 +20,6 @@ class PertanyaanController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $pertanyaans = Pertanyaan::all();
@@ -41,22 +36,11 @@ class PertanyaanController extends Controller
         return view('pertanyaan.index', compact('pertanyaans', 'skor_arr'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('pertanyaan.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -86,12 +70,6 @@ class PertanyaanController extends Controller
         return redirect('/pertanyaan')->with('success', 'Pertanyaan Berhasil Disimpan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $pertanyaan = Pertanyaan::find($id);
@@ -128,12 +106,6 @@ class PertanyaanController extends Controller
         return view('pertanyaan.show', compact('pertanyaan', 'jawabans', 'vote'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $pertanyaan = Pertanyaan::find($id); //SELECT * FROM
@@ -149,13 +121,6 @@ class PertanyaanController extends Controller
         return view('pertanyaan.edit', compact('pertanyaan', 'tag_value'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -186,12 +151,6 @@ class PertanyaanController extends Controller
         return redirect(route('pertanyaan.show', ['pertanyaan' => $id]))->with('success', 'Berhasil Update pertanyaan!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         Pertanyaan::destroy($id);

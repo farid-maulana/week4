@@ -45,6 +45,10 @@
                     {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <a class="dropdown-item" href="{{ route('profile.edit', ['profile' => Auth::user()->profile->id]) }}">
+                        Edit Profile
+                    </a>
+                    <div class="dropdown-divider"></div>
                     <p class="dropdown-item" href="#">
                         Poin Reputasi : {{ Auth::user()->profile->poin }}
                     </p>

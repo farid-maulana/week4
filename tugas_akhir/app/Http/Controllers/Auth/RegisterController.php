@@ -31,13 +31,13 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
-        $full_name = $request["full_name"];
+        $name = $request["name"];
         $profile = Profile::create([
-            "full_name" => $full_name
+            "full_name" => $name
         ]);
         $user->profile()->save($profile);
-        Alert::success('Berhasil Register', "Selamat Bergabung $full_name");
-        return redirect(route('login'));
+        Alert::success('Berhasil Register', "Selamat Bergabung $name");
+        return redirect(route('pertanyaan.index'));
     }
 
     /**
