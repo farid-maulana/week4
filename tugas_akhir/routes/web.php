@@ -14,9 +14,10 @@
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
+Route::get('/', 'PertanyaanController@index')->name('home');
 Route::resource('pertanyaan', 'PertanyaanController');
 Route::resource('profile', 'ProfileController');
-Route::get('/', 'PertanyaanController@redirectIndex')->name('home');
+
 
 //ROUTE MENENTUKAN JAWABAN TEPAT
 Route::get('/pertanyaan/{pertanyaan}/edit/{jawaban}', 'PertanyaanController@tepat')->name('pertanyaan.tepat');
