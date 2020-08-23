@@ -9,18 +9,34 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('/adminlte/plugins/fontawesome-free/css/all.min.css') }}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{{ asset('/adminlte/dist/css/adminlte.min.css') }} ">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+ <!-- Font Awesome -->
+ <link rel="stylesheet" href="{{ asset('/adminlte/plugins/fontawesome-free/css/all.min.css') }}">
+ <!-- Ionicons -->
+ <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+ <!-- Tempusdominus Bbootstrap 4 -->
+ <link rel="stylesheet" href="{{ asset('/adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+ <!-- iCheck -->
+ <link rel="stylesheet" href="{{ asset('/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+ <!-- JQVMap -->
+ <link rel="stylesheet" href="{{ asset('/adminlte/plugins/jqvmap/jqvmap.min.css') }}">
+ <!-- Theme style -->
+ <link rel="stylesheet" href="{{ asset('/adminlte/dist/css/adminlte.min.css') }}">
+ <!-- overlayScrollbars -->
+ <link rel="stylesheet" href="{{ asset('/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+ <!-- Daterange picker -->
+ <link rel="stylesheet" href="{{ asset('/adminlte/plugins/daterangepicker/daterangepicker.css') }}">
+ <!-- summernote -->
+ <link rel="stylesheet" href="{{ asset('/adminlte/plugins/summernote/summernote-bs4.css') }}">
+ <!-- Google Font: Source Sans Pro -->
+ <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
   <!-- Custom Style -->
   <link rel="icon" href="{{ asset('/img/4.png') }}" type="image/x-icon"/>
   <link rel="stylesheet" href="{{ asset('/css/style.css') }} ">
   @stack('script-head')
 </head>
-<body class="hold-transition sidebar-collapse layout-top-nav">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-fixed">
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
@@ -72,12 +88,13 @@
 <!-- Bootstrap 4 -->
 <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{ asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+<script src="{{ asset('adminlte/dist/js/adminlte.js')}}"></script>
+{{-- <script src="{{ asset('adminlte/dist/js/adminlte.min.js')}}"></script> --}}
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('adminlte/dist/js/demo.js')}}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Custom JS -->
-<!-- Sidebar -->
-{{-- <script src="{{ asset('/js/sidebar.js')}}"></script> --}}
 @stack('scripts')
 @include('sweetalert::alert')
 </body>
